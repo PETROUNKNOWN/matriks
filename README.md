@@ -1,6 +1,6 @@
 # Project Title
 
-![Project Logo](rescources/screenshots/logo.png)
+![Project Logo](resources/screenshots/logo.png)
 
 Matriks stuff here!.
 
