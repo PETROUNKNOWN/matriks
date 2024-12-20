@@ -7,6 +7,9 @@ class App(customtkinter.CTk):
         self.title("Matriks 2.0.0")
         self.geometry("-5-0")
         self.resizable(0, True)
+
+        self.accentColor="#0000FF"
+        self.accentColorVar = customtkinter.StringVar(value="Blue")
         
         self.canvasSize=800
         self.canvasSizeVar = customtkinter.StringVar(value=str(self.canvasSize)) 
@@ -20,7 +23,7 @@ class App(customtkinter.CTk):
         self.reticleToggle=1
         self.reticleToggleVar = customtkinter.StringVar(value="On")
 
-        self.reticleColor="#0000FF"
+        
         self.reticleColorVar = customtkinter.StringVar(value="Blue")
 
         self.reticleGapSize=0
@@ -38,7 +41,7 @@ class App(customtkinter.CTk):
         self.gridIntersectionToggle=1
         self.gridIntersectionToggleVar=customtkinter.StringVar(value="On")
 
-        self.gridIntersectionColor="#0000FF"
+        
         self.gridIntersectionColorVar = customtkinter.StringVar(value="Blue")
 
         self.gridIntersectionSize=2
@@ -46,8 +49,7 @@ class App(customtkinter.CTk):
 
         self.backgroundColor="#191A19"
 
-        self.accentColor="#0000FF"
-        self.accentColorVar = customtkinter.StringVar(value="Blue")
+        
 
         self.draw_app()
 
@@ -59,40 +61,78 @@ class App(customtkinter.CTk):
         self.matrix_canvas.grid(row=0, column=0,sticky="nsew",padx=(20,10),pady=20)
         self.matrix_canvas.grid_propagate(0)
 
-        self.tabview = customtkinter.CTkTabview(self,border_color=self.accentColor,corner_radius=7,border_width=1,width=300,fg_color=self.backgroundColor)
+        self.tabview = customtkinter.CTkFrame(self,border_color=self.accentColor,corner_radius=7,border_width=1,width=300,fg_color=self.backgroundColor)
         self.tabview.grid(row=0, column=2, padx=(10, 20), pady=20, sticky="nsew")
         #self.tabview.grid_propagate(0)
-        self.tabview.add("Settings")
-        self.tabview.tab("Settings").grid_columnconfigure(1, weight=1)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle:", anchor="w").grid(row=0, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_reticle(action="toggle",selected_value=selected_option)).grid(row=0, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid:", anchor="w").grid(row=1, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_grid(action="toggle",selected_value=selected_option)).grid(row=1, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersections:", anchor="w").grid(row=2, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionToggleVar,values=["On","Off"],command=lambda selected_option: self.func_grid(action="gridIntersectionToggle",selected_value=selected_option)).grid(row=2, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Color:", anchor="w").grid(row=3, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_reticle(action="color",selected_value=selected_option)).grid(row=3, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersection Color:", anchor="w").grid(row=4, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_grid(action="gridIntersectionColor",selected_value=selected_option)).grid(row=4, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Accent Color:", anchor="w").grid(row=5, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.accentColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_app(action="color",selected_value=selected_option)).grid(row=5, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersection Size:", anchor="w").grid(row=6, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionSizeVar,values=["2","3","5","7"],command=lambda selected_option: self.func_grid(action="gridIntersectionSize",selected_value=selected_option)).grid(row=6, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Type:", anchor="w").grid(row=7, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridSolidVar,values=["Solid","Dashed"],command=lambda selected_option: self.func_grid(action="gridSolidToggle",selected_value=selected_option)).grid(row=7, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Line Size:", anchor="w").grid(row=8, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleSizeVar,values=["1","2","3","4","5","6","7","8"],command=lambda selected_option: self.func_reticle(action="reticleSize",selected_value=selected_option)).grid(row=8, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Divisions:", anchor="w").grid(row=9, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.canvasDivisionsVar,values=["5","10","15","20","25","30","35"],command=lambda selected_option: self.func_grid(action="gridStep",selected_value=selected_option)).grid(row=9, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Color:", anchor="w").grid(row=10, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridColorVar,values=["Red", "Green", "Blue","Grey"],command=lambda selected_option: self.func_grid(action="color",selected_value=selected_option)).grid(row=10, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Gap Size:", anchor="w").grid(row=11, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleGapSizeVar,values=["0","3","5","8","10","20","30","40","50","60"],command=lambda selected_option: self.func_reticle(action="reticleGapSize",selected_value=selected_option)).grid(row=11, column=2,sticky="e",padx=5,pady=5)
-        customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Canvas Size:", anchor="w").grid(row=12, column=0,sticky="w",padx=5,pady=5)
-        customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.canvasSizeVar,values=["400","500","800"],command=lambda selected_option: self.func_app(action="appSize",selected_value=selected_option)).grid(row=12, column=2,sticky="e",padx=5,pady=5)
+        #self.tabview.add("Settings")
+        self.tabview.grid_columnconfigure(1, weight=1)
+        customtkinter.CTkLabel(self.tabview, text="Reticle:", anchor="w").grid(row=0, column=0,sticky="w",padx=15,pady=(20,5))
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.reticleToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_reticle(action="toggle",selected_value=selected_option)).grid(row=0, column=2,sticky="e",padx=15,pady=(20,5))
+        customtkinter.CTkLabel(self.tabview, text="Reticle Color:", anchor="w").grid(row=1, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.reticleColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_reticle(action="color",selected_value=selected_option)).grid(row=1, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Reticle Line Size:", anchor="w").grid(row=2, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.reticleSizeVar,values=["1","2","3","4","5","6","7","8"],command=lambda selected_option: self.func_reticle(action="reticleSize",selected_value=selected_option)).grid(row=2, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Reticle Gap Size:", anchor="w").grid(row=3, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.reticleGapSizeVar,values=["0","3","5","8","10","20","30","40","50","60"],command=lambda selected_option: self.func_reticle(action="reticleGapSize",selected_value=selected_option)).grid(row=3, column=2,sticky="e",padx=15,pady=5)
+
+        customtkinter.CTkLabel(self.tabview, text="Grid:", anchor="w").grid(row=4, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_grid(action="toggle",selected_value=selected_option)).grid(row=4, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Color:", anchor="w").grid(row=5, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridColorVar,values=["Red", "Green", "Blue","Grey"],command=lambda selected_option: self.func_grid(action="color",selected_value=selected_option)).grid(row=5, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Type:", anchor="w").grid(row=6, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridSolidVar,values=["Solid","Dashed"],command=lambda selected_option: self.func_grid(action="gridSolidToggle",selected_value=selected_option)).grid(row=6, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Divisions:", anchor="w").grid(row=7, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.canvasDivisionsVar,values=["5","10","15","20","25","30","35"],command=lambda selected_option: self.func_grid(action="gridStep",selected_value=selected_option)).grid(row=7, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Intersections:", anchor="w").grid(row=8, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridIntersectionToggleVar,values=["On","Off"],command=lambda selected_option: self.func_grid(action="gridIntersectionToggle",selected_value=selected_option)).grid(row=8, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Intersection Color:", anchor="w").grid(row=9, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridIntersectionColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_grid(action="gridIntersectionColor",selected_value=selected_option)).grid(row=9, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Grid Intersection Size:", anchor="w").grid(row=10, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.gridIntersectionSizeVar,values=["2","3","5","7"],command=lambda selected_option: self.func_grid(action="gridIntersectionSize",selected_value=selected_option)).grid(row=10, column=2,sticky="e",padx=15,pady=5)
+       
+        customtkinter.CTkLabel(self.tabview, text="Accent Color:", anchor="w").grid(row=11, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.accentColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_app(action="color",selected_value=selected_option)).grid(row=11, column=2,sticky="e",padx=15,pady=5)
+        customtkinter.CTkLabel(self.tabview, text="Canvas Size:", anchor="w").grid(row=12, column=0,sticky="w",padx=15,pady=5)
+        customtkinter.CTkOptionMenu(self.tabview,variable=self.canvasSizeVar,values=["400","500","800"],command=lambda selected_option: self.func_app(action="appSize",selected_value=selected_option)).grid(row=12, column=2,sticky="e",padx=15,pady=5)
+        #####################################################
+        # self.tabview = customtkinter.CTkTabview(self,border_color=self.accentColor,corner_radius=7,border_width=1,width=300,fg_color=self.backgroundColor)
+        # self.tabview.grid(row=0, column=2, padx=(10, 20), pady=20, sticky="nsew")
+        # #self.tabview.grid_propagate(0)
+        # self.tabview.add("Settings")
+        # self.tabview.tab("Settings").grid_columnconfigure(1, weight=1)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle:", anchor="w").grid(row=0, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_reticle(action="toggle",selected_value=selected_option)).grid(row=0, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Color:", anchor="w").grid(row=1, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_reticle(action="color",selected_value=selected_option)).grid(row=1, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Line Size:", anchor="w").grid(row=2, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleSizeVar,values=["1","2","3","4","5","6","7","8"],command=lambda selected_option: self.func_reticle(action="reticleSize",selected_value=selected_option)).grid(row=2, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Reticle Gap Size:", anchor="w").grid(row=3, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.reticleGapSizeVar,values=["0","3","5","8","10","20","30","40","50","60"],command=lambda selected_option: self.func_reticle(action="reticleGapSize",selected_value=selected_option)).grid(row=3, column=2,sticky="e",padx=5,pady=5)
+
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid:", anchor="w").grid(row=4, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridToggleVar,values=["On","Off"],command=lambda selected_option:  self.func_grid(action="toggle",selected_value=selected_option)).grid(row=4, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Color:", anchor="w").grid(row=5, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridColorVar,values=["Red", "Green", "Blue","Grey"],command=lambda selected_option: self.func_grid(action="color",selected_value=selected_option)).grid(row=5, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Type:", anchor="w").grid(row=6, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridSolidVar,values=["Solid","Dashed"],command=lambda selected_option: self.func_grid(action="gridSolidToggle",selected_value=selected_option)).grid(row=6, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Divisions:", anchor="w").grid(row=7, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.canvasDivisionsVar,values=["5","10","15","20","25","30","35"],command=lambda selected_option: self.func_grid(action="gridStep",selected_value=selected_option)).grid(row=7, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersections:", anchor="w").grid(row=8, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionToggleVar,values=["On","Off"],command=lambda selected_option: self.func_grid(action="gridIntersectionToggle",selected_value=selected_option)).grid(row=8, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersection Color:", anchor="w").grid(row=9, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_grid(action="gridIntersectionColor",selected_value=selected_option)).grid(row=9, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Grid Intersection Size:", anchor="w").grid(row=10, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.gridIntersectionSizeVar,values=["2","3","5","7"],command=lambda selected_option: self.func_grid(action="gridIntersectionSize",selected_value=selected_option)).grid(row=10, column=2,sticky="e",padx=5,pady=5)
+       
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Accent Color:", anchor="w").grid(row=11, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.accentColorVar,values=["Red", "Green", "Blue","White"],command=lambda selected_option: self.func_app(action="color",selected_value=selected_option)).grid(row=11, column=2,sticky="e",padx=5,pady=5)
+        # customtkinter.CTkLabel(self.tabview.tab("Settings"), text="Canvas Size:", anchor="w").grid(row=12, column=0,sticky="w",padx=5,pady=5)
+        # customtkinter.CTkOptionMenu(self.tabview.tab("Settings"),variable=self.canvasSizeVar,values=["400","500","800"],command=lambda selected_option: self.func_app(action="appSize",selected_value=selected_option)).grid(row=12, column=2,sticky="e",padx=5,pady=5)
 
         halfCanvas=self.canvasSize/2
         fracCanvas=self.canvasSize*0.25
+        self.reticleColor=self.accentColor
+        self.gridIntersectionColor=self.accentColor
         match self.reticleToggle:
             
             case 0:
